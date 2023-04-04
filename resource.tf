@@ -3,7 +3,7 @@ variable "aws_region" {
   default = "us-east-1"
 }
 variable "instance_name" {
-  default = "deploy to test"
+  default = "Prod_server"
 }
 
 variable "key_name" {
