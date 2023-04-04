@@ -16,7 +16,7 @@ variable "security_group_id" {
 }
 
 variable "vpc_id" {
-  default = "vpc-04015f3645142a1fa"
+  default = "subnet-05a31b67b18113593"
 }
 
 variable "instance_type" {
@@ -33,7 +33,7 @@ resource "aws_instance" "ec2_instance" {
   instance_type = var.instance_type
   key_name      = var.key_name
   security_groups = [var.security_group_id]
-  subnet_id     = subnet-05a31b67b18113593
+  subnet_id     = "${var.vpc_id}"
   tags = {
     Name = var.instance_name
   }
