@@ -24,7 +24,7 @@ variable "instance_type" {
 }
 
 variable "ami_id" {
-  default = "ami-00c39f71452c08778"
+  default = "ami-007855ac798b5175e"
 }
 
 # Define EC2 instance resource
