@@ -33,7 +33,7 @@ resource "aws_instance" "ec2_instance" {
   instance_type = var.instance_type
   key_name      = var.key_name
   security_groups = [var.security_group_id]
-  subnet_id     = "${var.vpc_id}"
+  subnet_id     = subnet-05a31b67b18113593
   tags = {
     Name = var.instance_name
   }
