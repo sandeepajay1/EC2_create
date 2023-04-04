@@ -7,7 +7,6 @@ variable "instance_name" {
 }
 
 variable "key_name" {
-  default = "Udemy.pem"
   default = "Udemy"
 }
 
