@@ -20,7 +20,7 @@ variable "instance_type" {
   default = "t2.micro"
 }
 variable "ami_id" {
-  default = "ami-00c39f71452c08778"
+  default = "ami-007855ac798b5175e"
 }
 # Define EC2 instance resource
 resource "aws_instance" "ec2_instance" {
