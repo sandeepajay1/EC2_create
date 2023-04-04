@@ -8,7 +8,7 @@ variable "instance_name" {
 }
 
 variable "key_name" {
-  default = "udemy.pem"
+  default = "Udemy.pem"
 }
 
 variable "security_group_id" {
