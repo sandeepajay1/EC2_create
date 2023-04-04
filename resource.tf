@@ -7,7 +7,7 @@ variable "instance_name" {
 }
 
 variable "key_name" {
-  default = "Udemy"
+  default = "deploy"
 }
 
 variable "security_group_id" {
