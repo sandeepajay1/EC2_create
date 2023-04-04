@@ -27,8 +27,26 @@ variable "ami_id" {
   default = "ami-00c39f71452c08778"
 }
 
-# Define EC2 instance resource
+# Check if an instance with the same name and configuration already exists
+data "aws_instances" "existing_instance" {
+  instance_tags = {
+    Name = var.instance_name
+  }
+  instance_state_names = ["running", "stopped"]
+  filter {
+    name   = "instance-type"
+    values = [var.instance_type]
+  }
+  filter {
+    name   = "image-id"
+    values = [var.ami_id]
+  }
+}
+
+# Define EC2 instance resource only if it does not already exist
 resource "aws_instance" "ec2_instance" {
+  count = length(data.aws_instances.existing_instance.ids) == 0 ? 1 : 0
+
   ami           = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_name
