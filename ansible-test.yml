@@ -16,11 +16,26 @@
     become : yes
     become_user : root
     
-  - name : Download kubectl repo
-    command : curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+  - name : install certificates and curl
+    command : sudo apt-get install -y ca-certificates curl
     become : yes
     become_user : root  
-    
+
+  - name : Google Cloud public signing key
+    command : sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    become : yes
+    become_user : root  
+
+  - name : Kubernetes apt repository
+    command : echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+    become : yes
+    become_user : root
+
+  - name : apt update
+    command : sudo apt-get update
+    become : yes
+    become_user : root 
+
   - name : Install kubectl
     command : sudo install -o jenkins -g jenkins -m 0755 kubectl /usr/local/bin/kubectl
     become : yes
