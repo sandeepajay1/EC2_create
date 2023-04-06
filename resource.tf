@@ -20,27 +20,38 @@ variable "instance_type" {
 variable "ami_id" {
   default = "ami-007855ac798b5175e"
 }
-variable "public_ip" {
-  default = "44.213.206.125"
+
+# Define elastic IP resource
+resource "aws_eip" "eip" {
+  vpc = true
 }
 
 # Define EC2 instance resource
 resource "aws_instance" "ec2_instance" {
-  ami                    = var.ami_id
-  instance_type          = var.instance_type
-  key_name               = var.key_name
-  security_groups        = [var.security_group_id]
-  subnet_id              = "${var.vpc_id}"
-  associate_public_ip_address = true
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  key_name      = var.key_name
+  security_groups = [var.security_group_id]
+  subnet_id     = "${var.vpc_id}"
   tags = {
     Name = var.instance_name
   }
+
+  # Associate elastic IP with instance
+  network_interface {
+    network_interface_id = aws_network_interface.primary_interface.id
+    device_index         = 0
+  }
+
+  depends_on = [aws_eip.eip]
 }
 
-# Associate Elastic IP address
-resource "aws_eip" "eip" {
-  vpc                 = true
-  instance            = aws_instance.ec2_instance.id
-  associate_with_private_ip = aws_instance.ec2_instance.private_ip
-  public_ip           = var.public_ip
+# Define network interface resource
+resource "aws_network_interface" "primary_interface" {
+  subnet_id = var.vpc_id
+
+  # Associate elastic IP with network interface
+  associate_public_ip_address = true
+
+  depends_on = [aws_eip.eip]
 }
