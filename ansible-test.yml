@@ -15,6 +15,17 @@
     command : sudo systemctl start docker
     become : yes
     become_user : root
+    
+  - name : Download kubectl repo
+    command : curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    become : yes
+    become_user : root  
+    
+  - name : Install kubectl
+    command : sudo install -o jenkins -g jenkins -m 0755 kubectl /usr/local/bin/kubectl
+    become : yes
+    become_user : root       
+    
 
   - name: Copy file with owner and permission, using symbolic representation
     ansible.builtin.copy:
